@@ -3,6 +3,7 @@ package com.backend.findcrime.apiPayload.exception;
 import com.backend.findcrime.apiPayload.ApiResponse;
 import com.backend.findcrime.apiPayload.code.ErrorReasonDTO;
 import com.backend.findcrime.apiPayload.code.status.ErrorStatus;
+import com.backend.findcrime.service.DiscordService.DiscordService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import java.util.Optional;
 @Slf4j
 @RestControllerAdvice(annotations = {RestController.class})
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
+    private final DiscordService discordService;
 
     @ExceptionHandler
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
@@ -56,6 +58,9 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
         e.printStackTrace();
+
+        // 디스코드로 500에러 메시지 전송
+        discordService.sendErrorToDiscord(e, request);
 
         return handleExceptionInternalFalse(e, ErrorStatus._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY, ErrorStatus._INTERNAL_SERVER_ERROR.getHttpStatus(),request, e.getMessage());
     }
