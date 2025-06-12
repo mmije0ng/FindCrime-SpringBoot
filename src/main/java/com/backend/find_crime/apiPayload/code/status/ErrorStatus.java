@@ -36,7 +36,11 @@ public enum ErrorStatus implements BaseErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "아이디와 일치하는 사용자가 없습니다."),
 
     // 게시글 관련
-    POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST4001", "아이디와 일치하는 제보 게시글이 없습니다.");
+    POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST4001", "아이디와 일치하는 제보 게시글이 없습니다."),
+
+    // 페이지 번호 관련
+    PAGE_NOT_FOUND(HttpStatus.BAD_REQUEST, "PAGE4001", "페이지 번호가 비어있습니다."),
+    INVALID_PAGE_NUMBER(HttpStatus.BAD_REQUEST, "PAGE4002", "페이지 번호는 1 이상이어야 합니다.");
 
 
     private final HttpStatus httpStatus;

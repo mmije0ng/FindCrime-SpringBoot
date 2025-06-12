@@ -7,6 +7,7 @@ import com.backend.find_crime.service.PostService.PostCommandService;
 import com.backend.find_crime.service.PostService.PostQueryService;
 import com.backend.find_crime.validation.annotation.ExistMember;
 import com.backend.find_crime.validation.annotation.ExistPost;
+import com.backend.find_crime.validation.annotation.ValidatePage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,15 @@ public class PostController {
     }
 
     @Operation(summary = "제보 게시글 상세 조회 API")
+    @GetMapping("/{postId}")
+    public ApiResponse<PostResponse.PostDetailResponseDTO> getPostDetail(@PathVariable @ExistPost Long postId, @RequestParam @ExistMember Long memberId) {
+        return ApiResponse.onSuccess(postQueryService.findPostDetail(postId, memberId));
+    }
+
+    @Operation(summary = "제보 게시글 페이지네이션 조회 API")
     @GetMapping
-    public ApiResponse<PostResponse.PostDetailResponseDTO> getPostDetail(@RequestParam @ExistMember Long memberId, @RequestParam @ExistPost Long postId) {
-        return ApiResponse.onSuccess(postQueryService.findPostDetail(memberId, postId));
+    public ApiResponse<PostResponse.PostInfoPageDTO> getPostPages(@ModelAttribute PostRequest.PostPageRequestDTO requestDTO,
+                                                                  @ValidatePage Integer page) {
+        return ApiResponse.onSuccess(postQueryService.findPostInfoPage(requestDTO, page));
     }
 }
