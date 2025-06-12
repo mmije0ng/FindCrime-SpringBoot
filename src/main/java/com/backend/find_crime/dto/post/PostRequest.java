@@ -1,21 +1,32 @@
-package com.backend.find_crime.dto.statistic;
+package com.backend.find_crime.dto.post;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-public class CrimeAreaStatisticRequest {
+public class PostRequest {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
-    @Schema(description = "카테고리별 지역 범죄 통계 요청 정보")
-    public static class StatisticRequestDTO {
-
-        @Schema(description = "범죄 연도", example = "2023")
+    @Schema(description = "제보게시판 게시글 등록 요청 정보")
+    public static class PostCreateRequestDTO {
+        @Schema(description = "게시글 제목")
         @NotNull
-        private Integer year;
+        @Size(min = 1, max = 20)
+        private String postTitle;
+
+        @NotNull
+        @Size(min = 1, max = 200)
+        @Schema(description = "게시글 내용")
+        private String postContent;
+
+//        @Schema(description = "게시글 이미지 URL")
+//        private String postImageUrl;
 
         @Schema(description = "지역 이름", example = "서울")
         @NotNull

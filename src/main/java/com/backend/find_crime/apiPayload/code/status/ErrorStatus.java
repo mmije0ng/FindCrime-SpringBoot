@@ -30,7 +30,10 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 통계 관련
     STATISTIC_NOT_FOUND(HttpStatus.BAD_REQUEST, "STATISTIC4001","아이디와 일치하는 통계가 없습니다."),
-    STATISTIC_NOT_FOUND_BY_CRIME_AREA_AND_YEAR(HttpStatus.BAD_REQUEST, "STATISTIC4002","범죄지역&연도와 일치하는 통계가 없습니다.");
+    STATISTIC_NOT_FOUND_BY_CRIME_AREA_AND_YEAR(HttpStatus.BAD_REQUEST, "STATISTIC4002","범죄지역&연도와 일치하는 통계가 없습니다."),
+
+    // 유저 관련
+    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "아이디와 일치하는 사용자가 없습니다.");
 
 
     private final HttpStatus httpStatus;
