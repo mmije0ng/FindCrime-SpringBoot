@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CrimeAreaRepository extends JpaRepository<CrimeArea, Long> {
+public interface CrimeAreaRepository extends JpaRepository<CrimeArea, Long>, CrimeAreaRepositoryCustom {
     boolean existsByCrimeAndArea(Crime crime, Area area);
     Optional<CrimeArea> findByCrimeAndArea(Crime crime, Area area);
 }

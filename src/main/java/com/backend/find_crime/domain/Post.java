@@ -1,15 +1,17 @@
 package com.backend.find_crime.domain;
 
+import com.backend.find_crime.domain.common.BaseEntity;
 import com.backend.find_crime.domain.mapping.CrimeArea;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Setter
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-public class Post {
+public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,5 +1,6 @@
 package com.backend.find_crime.domain;
 
+import com.backend.find_crime.domain.common.BaseEntity;
 import com.backend.find_crime.domain.enums.Role;
 import com.backend.find_crime.domain.enums.SocialType;
 import jakarta.persistence.*;
@@ -10,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

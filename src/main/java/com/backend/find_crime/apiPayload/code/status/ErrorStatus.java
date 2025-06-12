@@ -30,7 +30,20 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 통계 관련
     STATISTIC_NOT_FOUND(HttpStatus.BAD_REQUEST, "STATISTIC4001","아이디와 일치하는 통계가 없습니다."),
-    STATISTIC_NOT_FOUND_BY_CRIME_AREA_AND_YEAR(HttpStatus.BAD_REQUEST, "STATISTIC4002","범죄지역&연도와 일치하는 통계가 없습니다.");
+    STATISTIC_NOT_FOUND_BY_CRIME_AREA_AND_YEAR(HttpStatus.BAD_REQUEST, "STATISTIC4002","범죄지역&연도와 일치하는 통계가 없습니다."),
+
+    // 유저 관련
+    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "아이디와 일치하는 사용자가 없습니다."),
+
+    // 제보 게시글 관련
+    POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST4001", "아이디와 일치하는 제보 게시글이 없습니다."),
+
+    // 게시글 좋아요 관련
+    POST_LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST_LIKE4002", "멤버&게시글과 일치하는 좋아요가 없습니다."),
+
+    // 페이지 번호 관련
+    PAGE_NOT_FOUND(HttpStatus.BAD_REQUEST, "PAGE4001", "페이지 번호가 비어있습니다."),
+    INVALID_PAGE_NUMBER(HttpStatus.BAD_REQUEST, "PAGE4002", "페이지 번호는 1 이상이어야 합니다.");
 
 
     private final HttpStatus httpStatus;
