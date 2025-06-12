@@ -44,6 +44,7 @@ public class CrimeAreaStatisticQueryServiceImpl implements CrimeAreaStatisticQue
         Integer crimeCount = statistic.getCrimeCount();
         String crimeRisk = CrimeRisk.fromCrimeCount(crimeCount).getLabel();
 
+        log.info("카테고리(연도, 지역, 지역 디테일, 범죄대분류, 범죄소분류)별 통계 조회 완료");
         return CrimeAreaStatisticConverter.toStatisticResultDTO(crimeCount, crimeRisk);
     }
 

@@ -4,6 +4,7 @@ import com.backend.find_crime.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Setter
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
