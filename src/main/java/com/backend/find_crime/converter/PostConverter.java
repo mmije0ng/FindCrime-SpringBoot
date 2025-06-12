@@ -23,4 +23,13 @@ public class PostConverter {
                 .createdAt(post.getCreatedAt()) // createdAt 필드는 Post 엔티티에 있어야 함
                 .build();
     }
+
+    public static PostResponse.PostDetailResponseDTO toPostDetailResponseDTO(Post post, Boolean isLiked) {
+        return PostResponse.PostDetailResponseDTO.builder()
+                .postTitle(post.getPostTitle())
+                .postContent(post.getPostContent())
+                .isLiked(isLiked)
+                .createdAt(post.getCreatedAt())
+                .build();
+    }
 }

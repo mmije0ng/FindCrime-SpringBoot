@@ -25,5 +25,6 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     @Override
     public Member validateMember(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new ErrorHandler(ErrorStatus.MEMBER_NOT_FOUND));    }
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.MEMBER_NOT_FOUND));
+    }
 }
