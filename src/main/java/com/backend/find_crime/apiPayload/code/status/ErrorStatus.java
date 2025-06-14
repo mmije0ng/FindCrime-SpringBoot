@@ -43,7 +43,12 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 페이지 번호 관련
     PAGE_NOT_FOUND(HttpStatus.BAD_REQUEST, "PAGE4001", "페이지 번호가 비어있습니다."),
-    INVALID_PAGE_NUMBER(HttpStatus.BAD_REQUEST, "PAGE4002", "페이지 번호는 1 이상이어야 합니다.");
+    INVALID_PAGE_NUMBER(HttpStatus.BAD_REQUEST, "PAGE4002", "페이지 번호는 1 이상이어야 합니다."),
+
+    // 인증 관련
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH4011", "유효하지 않은 토큰입니다."),
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH4012", "만료된 토큰입니다."),
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "AUTH4013", "비밀번호가 일치하지 않습니다.");
 
 
     private final HttpStatus httpStatus;
