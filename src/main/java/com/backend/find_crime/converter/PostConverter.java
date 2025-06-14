@@ -28,11 +28,13 @@ public class PostConverter {
                 .build();
     }
 
-    public static PostResponse.PostDetailResponseDTO toPostDetailResponseDTO(Post post, Boolean isLiked) {
+    public static PostResponse.PostDetailResponseDTO toPostDetailResponseDTO(Post post, Member member, Boolean isLiked) {
         return PostResponse.PostDetailResponseDTO.builder()
                 .postTitle(post.getPostTitle())
                 .postContent(post.getPostContent())
                 .isLiked(isLiked)
+                .nickName(member.getNickName())
+                .profileImageUrl(member.getProfileImage())
                 .createdAt(post.getCreatedAt())
                 .build();
     }

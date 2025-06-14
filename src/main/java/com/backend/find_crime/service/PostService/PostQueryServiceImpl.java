@@ -53,7 +53,7 @@ public class PostQueryServiceImpl implements PostQueryService {
         Boolean isLiked = postLikeRepository.findByPostIdAndMemberId(postId, memberId).isPresent();
 
         log.info("제보 게시글 상세 조회 완료 postId: {}", postId);
-        return PostConverter.toPostDetailResponseDTO(post, isLiked);
+        return PostConverter.toPostDetailResponseDTO(post, post.getMember(), isLiked);
     }
 
     // 카테고리별 제보 게시글 페이지네이션 조회

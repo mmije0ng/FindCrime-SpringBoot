@@ -33,6 +33,8 @@ public class PostResponse {
         String postTitle;
         String postContent;
         Boolean isLiked;
+        String nickName;
+        String profileImageUrl;
         LocalDateTime createdAt;
     }
 

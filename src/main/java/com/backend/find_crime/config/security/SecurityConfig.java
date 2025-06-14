@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         (requests) -> requests
 
-                                .requestMatchers("/",  "/api/auth/login/kakao", "/auth/login/kakao", "/api/*", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // permitAll(): 인증 없이 접근 가능한 경로 지정
+                                .requestMatchers("/",  "/api/auth/login/kakao", "/auth/login/kakao", "/api/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // permitAll(): 인증 없이 접근 가능한 경로 지정
                                 .requestMatchers("/admin/**").hasRole("ADMIN") // hasRole(): 역할을 가진 사용자만 접근 가능하도록 제한
                                 .anyRequest().authenticated() // 그 외 모든 요청에 대한 인증 요구
                 )

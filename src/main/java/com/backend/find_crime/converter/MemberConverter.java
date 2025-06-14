@@ -22,4 +22,14 @@ public class MemberConverter {
     public static MemberResponse.LoginResultDto toLoginResultDto(Long memberId) {
         return MemberResponse.LoginResultDto.builder().userId(memberId).build();
     }
+
+    // 마이페이지
+    public static MemberResponse.MyPageResultDto toMyPageResultDto(Member member) {
+        return MemberResponse.MyPageResultDto.builder()
+                .email(member.getEmail())
+                .nickName(member.getNickName())
+                .profileImageUrl(member.getProfileImage())
+                .createdAt(member.getCreatedAt())
+                .build();
+    }
 }

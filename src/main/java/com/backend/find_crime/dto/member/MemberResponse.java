@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 public class MemberResponse {
 
     @Builder
@@ -18,5 +20,17 @@ public class MemberResponse {
         Long userId;
 
         // accessToken은 response header에
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "마이페이지 응답 정보")
+    public static class  MyPageResultDto {
+        String email;
+        String nickName;
+        String profileImageUrl;
+        LocalDateTime createdAt;
     }
 }
