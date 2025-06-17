@@ -7,9 +7,11 @@ import com.backend.find_crime.domain.Member;
 import com.backend.find_crime.dto.member.MemberResponse;
 import com.backend.find_crime.repository.MemberRepository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -34,6 +36,7 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     @Override
     public MemberResponse.MyPageResultDto findMemberInfo(Long memberId) {
         Member member = validateMember(memberId);
+        log.info("마이페이지 조회 완료 memberId: {}", memberId);
         return MemberConverter.toMyPageResultDto(member);
     }
 }
