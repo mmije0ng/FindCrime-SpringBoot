@@ -2,7 +2,6 @@ package com.backend.find_crime.config.security.jwt;
 
 import com.backend.find_crime.apiPayload.ApiResponse;
 import com.backend.find_crime.apiPayload.code.status.ErrorStatus;
-import com.backend.find_crime.config.properties.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -23,14 +22,13 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final ObjectMapper objectMapper = new ObjectMapper(); // 재사용을 위해 필드로
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
-
         try {
             // 요청 헤더에서 JWT 토큰 추출
             String token = resolveToken(request);
@@ -42,43 +40,39 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
-            // 다음 필터로 요청 전달
             filterChain.doFilter(request, response);
 
         } catch (ExpiredJwtException ex) {
-            // 만료된 JWT 토큰 예외 발생 시 custom 403 응답 반환
             log.error("JWT Token 만료: {}", ex.getMessage());
 
-            // JSON 응답 설정
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-            // API 응답 객체 생성
             ApiResponse<Void> errorResponse = ApiResponse.onFailure(
                     ErrorStatus.EXPIRED_TOKEN.getCode(),
                     ErrorStatus.EXPIRED_TOKEN.getMessage(),
                     null
             );
 
-            // JSON 응답 반환
             response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
         }
     }
 
-    // "Authorization" 헤더에서 "Bearer " 접두사를 제거한 순수 토큰 추출
+    // Authorization 헤더에서 Bearer 토큰 추출
     private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(Constants.ACCESS_TOKEN_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(Constants.BEARER_PREFIX)) {
-            return bearerToken.substring(Constants.BEARER_PREFIX.length());
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
         }
         return null;
     }
 
-    // 재발급 API 경로는 JWT 필터를 타지 않도록 예외 처리
+    // 특정 경로는 필터 예외 처리
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.equals("/api/auth/regenerate");
+        return path.startsWith("/api/auth/login/kakao")
+                || path.startsWith("/api/auth/regenerate");
     }
 }

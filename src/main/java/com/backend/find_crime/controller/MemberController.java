@@ -25,7 +25,6 @@ public class MemberController {
     @GetMapping()
     public ApiResponse<MemberResponse.MyPageResultDto> getMemberInfo(HttpServletRequest request) {
         Long memberId = authUtil.getMemberIdFromRequest(request);
-        log.info(memberId.toString());
         return ApiResponse.onSuccess(memberQueryService.findMemberInfo(memberId));
     }
 }

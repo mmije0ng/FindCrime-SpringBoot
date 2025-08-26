@@ -64,6 +64,7 @@ public class OAuthServiceImpl implements OAuthService {
         Constants.setAllTokens(response, accessToken, refreshToken);
 
         log.info("카카오 로그인 완료 (accessToken 직접 전달), memberId: {}", member.getId());
+        log.info("AccessToken: {}, RefreshToken: {}", accessToken, refreshToken);
     }
 
 }
