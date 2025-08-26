@@ -33,7 +33,7 @@ public class OAuthServiceImpl implements OAuthService {
     // 카카오 소셜 로그인
     @Transactional
     @Override
-    public MemberResponse.LoginResultDto kakaoOAuthLoginWithAccessToken(HttpServletRequest request, HttpServletResponse response) {
+    public void kakaoOAuthLoginWithAccessToken(HttpServletRequest request, HttpServletResponse response) {
         // 1. 클라이언트로부터 전달받은 Access Token으로 사용자 정보 조회
         String accessTokenFromClient = JwtTokenProvider.resolveToken(request);
         KakaoDTO.KakaoProfile kakaoProfile = kakaoUtil.requestUserInfo(accessTokenFromClient);
@@ -58,13 +58,12 @@ public class OAuthServiceImpl implements OAuthService {
                 Collections.singleton(() -> member.getRole().name())
         );
 
-        String accessToken = jwtTokenProvider.generateToken(authentication);
+        String accessToken = jwtTokenProvider.generateToken(authentication, member.getId()); // ✅ memberId 포함
         String refreshToken = jwtTokenProvider.generateRefreshToken(member.getEmail());
         jwtTokenProvider.storeRefreshToken(member.getEmail(), refreshToken);
         Constants.setAllTokens(response, accessToken, refreshToken);
 
-        log.info("카카오 로그인 완료 (accessToken 직접 전달), userId: {}", member.getId());
-        return MemberConverter.toLoginResultDto(member.getId());
+        log.info("카카오 로그인 완료 (accessToken 직접 전달), memberId: {}", member.getId());
     }
 
 }

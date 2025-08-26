@@ -18,11 +18,6 @@ public class MemberConverter {
                 .build();
     }
 
-    // 로그인 응답
-    public static MemberResponse.LoginResultDto toLoginResultDto(Long memberId) {
-        return MemberResponse.LoginResultDto.builder().userId(memberId).build();
-    }
-
     // 마이페이지
     public static MemberResponse.MyPageResultDto toMyPageResultDto(Member member) {
         return MemberResponse.MyPageResultDto.builder()

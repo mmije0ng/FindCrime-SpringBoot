@@ -6,7 +6,9 @@ import com.backend.find_crime.dto.statistic.CrimeAreaStatisticResponse;
 import com.backend.find_crime.service.CrimeAreaStatisticService.CrimeAreaStatisticCommandService;
 import com.backend.find_crime.service.CrimeAreaStatisticService.CrimeAreaStatisticQueryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,14 +24,15 @@ public class CrimeAreaStatisticController {
     @Operation(summary = "카테고리별 지역 범죄 통계 조회 API")
     @GetMapping
     public ApiResponse<CrimeAreaStatisticResponse.StatisticResultDTO> getCrimeAreaStatistic(
-            @ModelAttribute CrimeAreaStatisticRequest.StatisticRequestDTO requestDTO) {
+            HttpServletRequest request,
+            CrimeAreaStatisticRequest.StatisticRequestDTO requestDTO) {
 
         return ApiResponse.onSuccess(statisticQueryService.findStatisticByCategories(requestDTO));
     }
 
-    @Operation(summary = "csv 파일을 통해 범죄 통계 데이터를 DB에 저장")
+    @Operation(summary = "[관리자용] csv 파일을 통해 범죄 통계 데이터를 DB에 저장")
     @PostMapping("/upload")
-    public ApiResponse<String> uploadStatistics(@RequestParam("year") int year) {
+    public ApiResponse<String> uploadStatistics(HttpServletRequest request, @RequestParam("year") int year) {
         statisticCommandService.processCsvDataForYear(year);
         return ApiResponse.onSuccess(year + " 경찰청 범죄 발생 지역별 통계 CSV 데이터 처리 완료");
     }

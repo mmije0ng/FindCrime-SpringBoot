@@ -75,7 +75,7 @@
 &nbsp;
 ### 마이페이지
 카카오 소셜 로그인 기반 프로필 사진, 이름, 이메일, 가입 날짜 확인 및 로그아웃
-<table>
+₩<table>
   <tr>
     <td><img widh="2530" height="1170" src="https://github.com/user-attachments/assets/2ebceb02-3ca8-4c26-bfd0-05e8ab71f32f" /></td>
   </tr>

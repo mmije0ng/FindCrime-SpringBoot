@@ -35,11 +35,12 @@ public class JwtTokenProvider {
     }
 
     // 인증 정보를 받아 JWT Access Token을 생성하고 반환
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication, Long memberId) {
         String email = authentication.getName();
 
         return Jwts.builder()
                 .setSubject(email) // 이메일을 subject에 저장
+                .claim("memberId", memberId) // ✅ memberId 추가
                 .claim("role", authentication.getAuthorities().iterator().next().getAuthority())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration().getAccess()))
@@ -126,7 +127,7 @@ public class JwtTokenProvider {
 
     // AccessToken 생성 및 RefreshToken 회전 (기존 토큰 삭제 후 재발급)
     // AccessToken과 RefreshToken을 모두 반환
-    public Map<String, String> regenerateAccessTokenAndRotateRefreshToken(String email) {
+    public Map<String, String> regenerateAccessTokenAndRotateRefreshToken(String email, Long memberId) {
         // 기존 RefreshToken 삭제
         deleteRefreshToken(email);
 
@@ -134,11 +135,11 @@ public class JwtTokenProvider {
         String newRefreshToken = generateRefreshToken(email);
         storeRefreshToken(email, newRefreshToken);
 
-        // 새로운 AccessToken 발급
+        // 새로운 AccessToken 발급 (✅ memberId 포함)
         Authentication auth = new UsernamePasswordAuthenticationToken(
                 email, null, Collections.singleton(() -> "ROLE_USER")
         );
-        String newAccessToken = generateToken(auth);
+        String newAccessToken = generateToken(auth, memberId);
 
         // AccessToken, RefreshToken 함께 반환
         Map<String, String> tokens = new HashMap<>();
@@ -146,5 +147,20 @@ public class JwtTokenProvider {
         tokens.put("refreshToken", newRefreshToken);
 
         return tokens;
+    }
+
+    // 토큰에서 claims 객체 추출
+    public Claims extractAllClaims(String token) throws ExpiredJwtException {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    // 토큰에서 userId 추출
+    public Long extractMemberId(String token){
+        Claims claims = extractAllClaims(token); // claims 객체 추출
+        return claims.get("memberId", Long.class); // "memberId" 클레임에서 값을 추출
     }
 }

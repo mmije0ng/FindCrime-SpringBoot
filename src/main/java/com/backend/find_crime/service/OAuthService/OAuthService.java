@@ -6,5 +6,5 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface OAuthService {
     // 카카오 소셜 로그인
-    MemberResponse.LoginResultDto kakaoOAuthLoginWithAccessToken(HttpServletRequest request, HttpServletResponse response);
+    void kakaoOAuthLoginWithAccessToken(HttpServletRequest request, HttpServletResponse response);
 }

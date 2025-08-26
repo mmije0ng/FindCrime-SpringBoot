@@ -2,6 +2,7 @@ package com.backend.find_crime.service.MemberService;
 
 import com.backend.find_crime.domain.Member;
 import com.backend.find_crime.dto.member.MemberResponse;
+import com.backend.find_crime.validation.annotation.ExistMember;
 
 public interface MemberQueryService {
     // 멤버 존재 검증
@@ -11,5 +12,5 @@ public interface MemberQueryService {
     Member validateMember(Long memberId);
 
     // 마이페이지
-    MemberResponse.MyPageResultDto findMemberInfo(Long memberId);
+    MemberResponse.MyPageResultDto findMemberInfo(@ExistMember Long memberId);
 }

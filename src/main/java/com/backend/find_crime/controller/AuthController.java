@@ -8,8 +8,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Tag(name = "로그인/회원가입", description = "인증에 관한 API")
 @RequiredArgsConstructor
 @RestController
@@ -21,8 +23,8 @@ public class AuthController {
     // 카카오 로그인 API
     @Operation(summary = "카카오 로그인 API",description = "카카오 소셜 로그인 API입니다.")
     @PostMapping("/login/kakao")
-    public ApiResponse<MemberResponse.LoginResultDto> kakaoOAuthLogin(HttpServletRequest request,
-                                                                      HttpServletResponse response) {
-        return ApiResponse.onSuccess(oAuthService.kakaoOAuthLoginWithAccessToken(request, response));
+    public ApiResponse<String> kakaoOAuthLogin(HttpServletRequest request, HttpServletResponse response) {
+        oAuthService.kakaoOAuthLoginWithAccessToken(request, response);
+        return ApiResponse.onSuccess("카카오 로그인 성공");
     }
 }

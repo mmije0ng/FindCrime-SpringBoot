@@ -4,6 +4,7 @@ import com.backend.find_crime.apiPayload.ApiResponse;
 import com.backend.find_crime.service.CrimeAreaService.CrimeAreaCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +18,9 @@ public class CrimeAreaController {
 
     private final CrimeAreaCommandService crimeAreaCommandService;
 
-    @Operation(summary = "모든 범죄와 지역 데이터를 매핑")
+    @Operation(summary = "[관리자용] 모든 범죄와 지역 데이터를 매핑")
     @PostMapping("/map-all")
-    public ApiResponse<String> mapAllCrimesToAreas() {
+    public ApiResponse<String> mapAllCrimesToAreas(HttpServletRequest request) {
         crimeAreaCommandService.mapAllCrimesToAllAreas();
         return ApiResponse.onSuccess("모든 범죄와 지역이 매핑되었습니다.");
     }
