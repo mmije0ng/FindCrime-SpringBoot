@@ -6,6 +6,7 @@ import com.backend.find_crime.config.properties.Constants;
 import com.backend.find_crime.config.security.jwt.JwtTokenProvider;
 import com.backend.find_crime.config.security.jwt.RefreshToken;
 import com.backend.find_crime.repository.RefreshTokenRepository.RefreshTokenRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,14 @@ public class AuthServiceImpl implements AuthService {
 
         // 3. refresh token에서 사용자 이메일, access token에서 memberId 추출
         String email = jwtTokenProvider.getAuthentication(refreshToken).getName();
-        Long memberId = jwtTokenProvider.extractMemberId(accessToken);
+        Long memberId;
+        try {
+            // 만료 안 된 경우
+            memberId = jwtTokenProvider.extractMemberId(accessToken);
+        } catch (ExpiredJwtException ex) {
+            // 만료된 경우에도 claims에서 memberId 추출 가능
+            memberId = ex.getClaims().get("memberId", Long.class);
+        }
 
         // 4. 저장된 refresh token과 비교
         RefreshToken savedToken = refreshTokenRepository.findById(email)

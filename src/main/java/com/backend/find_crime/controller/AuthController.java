@@ -40,7 +40,6 @@ public class AuthController {
     @PostMapping("/regenerate")
     public ApiResponse<String> regenerateToken(HttpServletRequest request, HttpServletResponse response) {
         authService.reissueTokens(request, response);
-
         return ApiResponse.onSuccess("Access & RefreshToken 재발급 완료");
     }
 }
